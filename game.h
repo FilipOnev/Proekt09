@@ -21,7 +21,7 @@ private:
     sf::Texture xTexture;
     sf::Texture oTexture;
 
-    sf::Text statusText;     // Текст статуса игры (без шрифта)
+    sf::Text statusText;    
 
     sf::RectangleShape gridLines[4];
 

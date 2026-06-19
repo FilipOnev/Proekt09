@@ -59,7 +59,7 @@ void Game::initUI() {
     statusText.setFont(font);
     statusText.setString("Pick X");
     statusText.setCharacterSize(36);
-    statusText.setFillColor(sf::Color::White);
+    statusText.setFillColor(sf::Color::Cyan);
     statusText.setPosition(10, WINDOW_SIZE - 60);
 }
 

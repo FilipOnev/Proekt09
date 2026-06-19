@@ -12,20 +12,18 @@ isXTurn(true), gameState(GameState::PLAYING) {
 }
 
 void Game::initTextures() {
-    // Создаем X (красный крест)
     int thickness = 20;
     sf::Image xImage;
     xImage.create(CELL_SIZE, CELL_SIZE, sf::Color::Transparent);
     for (int i = 0; i < CELL_SIZE; i++) { //i= номер строки (координата Y) ((это я сам написал))
         for (int j = 0; j < CELL_SIZE; j++) { // j номер стоблка (координата X)
-            if (i == j || i + j == CELL_SIZE - 1) {
+            if (i == j or i + j == CELL_SIZE - 1) {
                 xImage.setPixel(i, j, sf::Color::Red);
             }
         }
     }
     xTexture.loadFromImage(xImage);
-
-    // Создаем O (синий круг)
+    
     sf::Image oImage;
     oImage.create(CELL_SIZE, CELL_SIZE, sf::Color::Transparent);
     for (int i = 0; i < CELL_SIZE; i++) {
@@ -43,11 +41,11 @@ void Game::initTextures() {
 
 void Game::initGridLines() {
     for (int i = 0; i < 2; i++) {
-        gridLines[i] = sf::RectangleShape(sf::Vector2f(3, WINDOW_SIZE));  // Вертикальные линии
+        gridLines[i] = sf::RectangleShape(sf::Vector2f(3, WINDOW_SIZE));  // вертикальные линии
         gridLines[i].setPosition((i + 1) * CELL_SIZE - 1.5f, 0);
         gridLines[i].setFillColor(sf::Color::White);
 
-        gridLines[i + 2] = sf::RectangleShape(sf::Vector2f(WINDOW_SIZE, 3));  // Горизонтальные линии
+        gridLines[i + 2] = sf::RectangleShape(sf::Vector2f(WINDOW_SIZE, 3));  // горизонтальные линии
         gridLines[i + 2].setPosition(0, (i + 1) * CELL_SIZE - 1.5f);
         gridLines[i + 2].setFillColor(sf::Color::White);
     }
@@ -66,7 +64,7 @@ void Game::initUI() {
 }
 
 void Game::handleClick(int ряд, int столбец) {
-    if (ряд < 0 || ряд >= BOARD_SIZE || столбец < 0 || столбец >= BOARD_SIZE) return;
+    if (ряд < 0 or ряд >= BOARD_SIZE || столбец < 0 || столбец >= BOARD_SIZE) return;
     if (gameState != GameState::PLAYING) return;
     if (board[ряд][столбец] != CellState::EMPTY) return;
 
@@ -93,7 +91,7 @@ bool Game::checkWin(CellState player) {
             if (board[i][j] != player) rowWin = false;
             if (board[j][i] != player) colWin = false;
         }
-        if (rowWin || colWin) return true;
+        if (rowWin or colWin) return true;
     }
 
     bool diag1Win = true, diag2Win = true;
@@ -101,7 +99,7 @@ bool Game::checkWin(CellState player) {
         if (board[i][i] != player) diag1Win = false;
         if (board[i][BOARD_SIZE - 1 - i] != player) diag2Win = false;
     }
-    return diag1Win || diag2Win;
+    return diag1Win or diag2Win;
 }
 
 bool Game::checkDraw() {
@@ -174,7 +172,6 @@ void Game::run() {
                     int col = event.mouseButton.x / CELL_SIZE;
                     int row = event.mouseButton.y / CELL_SIZE;
                     
-                    // Проверка клика на кнопку рестарта (внизу экрана)
                     if (gameState != GameState::PLAYING &&
                         event.mouseButton.x > WINDOW_SIZE / 2 - 70 &&
                         event.mouseButton.x < WINDOW_SIZE / 2 + 70 &&
@@ -194,20 +191,13 @@ void Game::run() {
 
         window.clear(sf::Color(50, 50, 50));
 
-        // Рисуем сетку
         for (auto& line : gridLines) {
             window.draw(line);
         }
-
-        // Рисуем доску
         drawBoard();
-
-        // Рисуем статус игры
         window.draw(statusText);
 
-        // Рисуем кнопку рестарта, если игра закончена
         if (gameState != GameState::PLAYING) {
-            // Фон кнопки
             sf::RectangleShape restartButton(sf::Vector2f(140, 50));
             restartButton.setPosition(WINDOW_SIZE / 2 - 70, WINDOW_SIZE - 120);
             restartButton.setFillColor(sf::Color(70, 70, 200));
@@ -215,14 +205,12 @@ void Game::run() {
             restartButton.setOutlineThickness(2);
             window.draw(restartButton);
 
-            // Текст кнопки
             sf::Text restartText;
             restartText.setFont(font);
             restartText.setString("New game");
             restartText.setCharacterSize(24);
             restartText.setFillColor(sf::Color::White);
 
-            // Центрируем текст на кнопке
             sf::FloatRect textBounds = restartText.getLocalBounds();
             restartText.setPosition(
                 WINDOW_SIZE / 2 - textBounds.width / 2,
@@ -231,7 +219,6 @@ void Game::run() {
 
             window.draw(restartText);
         }
-
         window.display();
     }
 }
